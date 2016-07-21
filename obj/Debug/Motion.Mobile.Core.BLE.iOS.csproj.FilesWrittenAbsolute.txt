@@ -1,0 +1,9 @@
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/obj/Debug/Xamarin.iOS,Version=v1.0.AssemblyAttribute.cs
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/obj/Debug/optimized/
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/bin/Debug/Motion.Mobile.Core.BLE.iOS.dll.mdb
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/bin/Debug/Motion.Mobile.Core.BLE.iOS.dll
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/obj/Debug/Motion.Mobile.Core.BLE.iOS.dll
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/obj/Debug/Motion.Mobile.Core.BLE.iOS.dll.mdb
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/bin/Debug/Motion.Mobile.CoreBLE.dll
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/bin/Debug/Motion.Mobile.CoreBLE.dll.mdb
+/Development/XamarinApps/XamTest/Motion.Mobile.Core.BLE.iOS/bin/Debug/Newtonsoft.Json.dll
