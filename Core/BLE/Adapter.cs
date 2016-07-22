@@ -153,7 +153,8 @@ namespace Motion.Mobile.Core.BLE
 			
 		public void StartScanningForDevices ()
 		{
-			StartScanningForDevices (serviceUuid: Guid.Empty);
+			List<Guid> serviceUuids = new List<Guid>();
+			StartScanningForDevices (serviceUuids);
 		}
 
 		readonly AutoResetEvent stateChanged = new AutoResetEvent (false);
@@ -167,7 +168,7 @@ namespace Motion.Mobile.Core.BLE
 			}
 		}
 
-		public async void StartScanningForDevices (Guid[] serviceUuid)
+		public async void StartScanningForDevices (List<Guid> serviceUuids)
 		{
 			//
 			// Wait for the PoweredOn state
@@ -176,14 +177,14 @@ namespace Motion.Mobile.Core.BLE
 
 			Debug.WriteLine ("Adapter: Starting a scan for devices.");
 
-			CBUUID[] serviceUuids = null;
+			CBUUID[] uuids = null;
 			// TODO: Convert to list so multiple Uuids can be detected
-			foreach (Guid uuid in serviceUuid)
+			foreach (Guid uuid in serviceUuids)
 			{
 				if (uuid != Guid.Empty)
 				{
-					var suuid = CBUUID.FromString(serviceUuid.ToString());
-					serviceUuids = new CBUUID[] { suuid };
+					var suuid = CBUUID.FromString(uuid.ToString());
+					uuids = new CBUUID[] { suuid };
 					Debug.WriteLine("Adapter: Scanning for " + suuid);
 				}
 			}
@@ -194,7 +195,7 @@ namespace Motion.Mobile.Core.BLE
 
 			// start scanning
 			this._isScanning = true;
-			this._central.ScanForPeripherals ( serviceUuids );
+			this._central.ScanForPeripherals ( uuids );
 
 			// in 10 seconds, stop the scan
 			await Task.Delay (10000);
