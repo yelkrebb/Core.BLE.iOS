@@ -17,6 +17,7 @@ namespace Motion.Mobile.Core.BLE
 	public class Characteristic : ICharacteristic
 	{
 		public event EventHandler<CharacteristicReadEventArgs> ValueUpdated = delegate {};
+		public event EventHandler<CharacteristicReadEventArgs> NotificationStateValueUpdated = delegate { };
 
 		protected CBCharacteristic _nativeCharacteristic;
 		CBPeripheral _parentDevice;
@@ -96,15 +97,17 @@ namespace Motion.Mobile.Core.BLE
 			if (!CanRead) {
 				throw new InvalidOperationException ("Characteristic does not support READ");
 			}
+
 			EventHandler<CBCharacteristicEventArgs> updated = null;
 			updated = (object sender, CBCharacteristicEventArgs e) => {
-				Console.WriteLine(".....UpdatedCharacterteristicValue");
+				Console.WriteLine(".....UpdatedCharacterteristicValue: " + e.Characteristic.Value);
 				var c = new Characteristic(e.Characteristic, _parentDevice);
 				tcs.SetResult(c);
 				_parentDevice.UpdatedCharacterteristicValue -= updated;
 			};
 
 			_parentDevice.UpdatedCharacterteristicValue += updated;
+			//_parentDevice.UpdatedCharacterteristicValue += UpdatedRead;
 			Console.WriteLine(".....ReadAsync");
 			_parentDevice.ReadValue (_nativeCharacteristic);
 
@@ -146,7 +149,7 @@ namespace Motion.Mobile.Core.BLE
 			if (CanUpdate) {
 				Console.WriteLine ("** Characteristic.RequestValue, PropertyType = Notify, requesting updates");
 				_parentDevice.UpdatedCharacterteristicValue += UpdatedNotify;
-
+				_parentDevice.UpdatedNotificationState += UpdatedNotificationState;
 				_parentDevice.SetNotifyValue (true, _nativeCharacteristic);
 
 				successful = true;
@@ -167,13 +170,22 @@ namespace Motion.Mobile.Core.BLE
 			this.ValueUpdated (this, new CharacteristicReadEventArgs () {
 				Characteristic = new Characteristic(e.Characteristic, _parentDevice)
 			});
-			_parentDevice.UpdatedCharacterteristicValue -= UpdatedRead;
+			//_parentDevice.UpdatedCharacterteristicValue -= UpdatedRead;
 		}
 
 		// continues to listen indefinitely
 		void UpdatedNotify(object sender, CBCharacteristicEventArgs e) {
 			Console.WriteLine ("Notify event "+this._nativeCharacteristic);
 			this.ValueUpdated (this, new CharacteristicReadEventArgs () {
+				Characteristic = new Characteristic(e.Characteristic, _parentDevice)
+			});
+		}
+
+		void UpdatedNotificationState(object sender, CBCharacteristicEventArgs e)
+		{
+			Console.WriteLine("Notification state event " + this._nativeCharacteristic);
+			this.NotificationStateValueUpdated(this, new CharacteristicReadEventArgs()
+			{
 				Characteristic = new Characteristic(e.Characteristic, _parentDevice)
 			});
 		}

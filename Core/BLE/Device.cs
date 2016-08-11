@@ -60,7 +60,7 @@ namespace Motion.Mobile.Core.BLE
 
 								// add the discovered characteristics to the particular service
 								foreach (var characteristic in srv.Characteristics) {
-									Console.WriteLine("Characteristic: " + characteristic.Description);
+									Console.WriteLine("Device: Characteristic: " + characteristic.Description);
 									Characteristic newChar = new Characteristic(characteristic, _nativeDevice);
 									item.Characteristics.Add(newChar);
 								}
