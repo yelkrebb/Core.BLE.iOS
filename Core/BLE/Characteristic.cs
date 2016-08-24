@@ -43,6 +43,11 @@ namespace Motion.Mobile.Core.BLE
 			}
 		}
 
+		public int ValueUpdatedSubscribers
+		{
+			get { return this.ValueUpdated.GetInvocationList().Length; }
+		}
+
 		public string StringValue {
 			get {
 				if (this.Value == null)

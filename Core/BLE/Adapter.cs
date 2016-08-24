@@ -240,14 +240,25 @@ namespace Motion.Mobile.Core.BLE
 
 		public void SendCommand (ICharacteristic handle, byte[] command)
 		{
-			handle.ValueUpdated += Handle_ValueUpdated;
+			Debug.WriteLine("Subscribers: " + handle.ValueUpdatedSubscribers);
+			if (handle.ValueUpdatedSubscribers <= 1)
+			{
+				handle.ValueUpdated += Handle_ValueUpdated;
+			}
 
 			if (handle.CanWrite)
-				handle.Write (command);
+			{
+				Console.WriteLine("Adapter: Sending Command");
+				handle.Write(command);
+			}
+			else {
+				Console.WriteLine("Unable to write handle");
+			}
 		}
 
 		void Handle_ValueUpdated (object sender, CharacteristicReadEventArgs e)
 		{
+			Debug.WriteLine("Adapter: Receiving command response...");
 			CommandResponse (this, new CommandResponseEventArgs () { Data = e.Characteristic.Value });
 		}
 
